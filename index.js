@@ -8,11 +8,11 @@ const app = express();
 
 app.use(cors());
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
     res.json("Welcome to the Unofficial Twitch API");
 });
 
-app.get('/api/homepage', async (req, res) => {
+app.get('/homepage', async (req, res) => {
     const browser = await puppeteer.launch({ 'headless': 'new' });
     const page = await browser.newPage();
     const base_url = 'https://www.twitch.tv';
@@ -65,7 +65,7 @@ app.get('/api/homepage', async (req, res) => {
     res.json(results);
 });
 
-app.get('/api/categories', async (req, res) => {
+app.get('/categories', async (req, res) => {
     const browser = await puppeteer.launch({ 'headless': 'new' });
     const page = await browser.newPage();
     const new_url = 'https://www.twitch.tv/directory';
@@ -115,7 +115,7 @@ function cleanText(str) {
     return cleanStr;
 }
 
-app.get('/api/category/:categoryId', async (req, res) => {
+app.get('/category/:categoryId', async (req, res) => {
     const browser = await puppeteer.launch({ 'headless': 'new' });
     const page = await browser.newPage();
     const category = cleanText(req.params.categoryId);
@@ -151,7 +151,7 @@ app.get('/api/category/:categoryId', async (req, res) => {
     res.json(live_channels_in_dir);
 });
 
-app.get('/api/channel/:channelId', async (req, res) => {
+app.get('/channel/:channelId', async (req, res) => {
     const browser = await puppeteer.launch({ 'headless': 'new' });
     const page = await browser.newPage();
 
