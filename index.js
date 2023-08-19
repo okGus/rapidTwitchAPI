@@ -14,54 +14,60 @@ app.get('/', (req, res) => {
 
 app.get('/homepage', async (req, res) => {
     const browser = await puppeteer.launch({ 'headless': 'new' });
-    const page = await browser.newPage();
-    const base_url = 'https://www.twitch.tv';
-    let results = [];
-
-    await page.goto(base_url);
-
-    // Load Show More
-    await page.click('div.Layout-sc-1xcs6mc-0.eajNuk > button');
-
-    // Live Channels we think you'll like
-    const live_channels = await page.evaluate(() => {
-        let items_ = [];
-
-        const items = document.querySelectorAll('a[data-test-selector=TitleAndChannel]');
+    try {
+        const page = await browser.newPage();
         const base_url = 'https://www.twitch.tv';
-        items.forEach((item) => {
-            const url = item.getAttribute('href');
-            const title = item.querySelector('p[data-a-target=preview-card-channel-link]').innerHTML;
+        let results = [];
+
+        await page.goto(base_url, {
+            waitUntil: 'domcontentloaded',
+        });
+
+        // Load Show More
+        await page.click('div.Layout-sc-1xcs6mc-0.eajNuk > button');
+
+        // Live Channels we think you'll like
+        const live_channels = await page.evaluate(() => {
+            let items_ = [];
+
+            const items = document.querySelectorAll('a[data-test-selector=TitleAndChannel]');
+            const base_url = 'https://www.twitch.tv';
+            items.forEach((item) => {
+                const url = item.getAttribute('href');
+                const title = item.querySelector('p[data-a-target=preview-card-channel-link]').innerHTML;
+                items_.push({
+                    url: base_url + url,
+                    channel_name: title,
+                });
+            });
+
+            return items_;
+        });
+        results.push({ youll_like: live_channels });
+
+        // First font page live channel
+        const front_page = await page.evaluate(() => {
+            let items_ = [];
+
+            const base_url = 'https://www.twitch.tv';
+
+            const url = document.querySelector('a[data-test-selector=stream-info-card-component__title-link]').getAttribute('href');
+            const title = document.querySelector('a[data-test-selector=stream-info-card-component__title-link]').innerHTML;
+
             items_.push({
                 url: base_url + url,
                 channel_name: title,
             });
+
+            return items_;
         });
 
-        return items_;
-    });
-    results.push({ youll_like: live_channels });
-
-    // First font page live channel
-    const front_page = await page.evaluate(() => {
-        let items_ = [];
-
-        const base_url = 'https://www.twitch.tv';
-
-        const url = document.querySelector('a[data-test-selector=stream-info-card-component__title-link]').getAttribute('href');
-        const title = document.querySelector('a[data-test-selector=stream-info-card-component__title-link]').innerHTML;
-
-        items_.push({
-            url: base_url + url,
-            channel_name: title,
-        });
-
-        return items_;
-    });
-
-    results.push({ front_page: front_page });
-
-    browser.close();
+        results.push({ front_page: front_page });
+    } catch (err) {
+        console.error(err);
+    } finally {
+        browser.close();
+    }
     res.json(results);
 });
 
