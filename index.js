@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
     res.json("Welcome to the Unofficial Twitch API");
 });
 
-app.get('/api/homepage', async (req, res) => {
+app.get('/homepage', async (req, res) => {
     const browser = await puppeteer.launch({ 'headless': 'new' });
     const page = await browser.newPage();
     const base_url = 'https://www.twitch.tv';
