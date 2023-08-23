@@ -20,6 +20,7 @@ app.get('/homepage', async (req, res) => {
         executablePath: await chromium.executablePath,
         headless: "new",
         ignoreHTTPSErrors: true,
+        ignoreDefaultArgs: ['--disable-extentions'],
     });
     // let results = [];
     
@@ -83,6 +84,7 @@ app.get('/categories', async (req, res) => {
         executablePath: await chromium.executablePath,
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
+        ignoreDefaultArgs: ['--disable-extentions'],
     });
     const page = await browser.newPage();
     const new_url = 'https://www.twitch.tv/directory';
@@ -139,6 +141,7 @@ app.get('/category/:categoryId', async (req, res) => {
         executablePath: await chromium.executablePath,
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
+        ignoreDefaultArgs: ['--disable-extentions'],
     });
     const page = await browser.newPage();
     const category = cleanText(req.params.categoryId);
@@ -181,6 +184,7 @@ app.get('/channel/:channelId', async (req, res) => {
         executablePath: await chromium.executablePath,
         headless: chromium.headless,
         ignoreHTTPSErrors: true,
+        ignoreDefaultArgs: ['--disable-extentions'],
     });
     const page = await browser.newPage();
 
