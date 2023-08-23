@@ -18,7 +18,7 @@ app.get('/homepage', async (req, res) => {
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
         executablePath: await chromium.executablePath,
-        headless: chromium.headless,
+        headless: "new",
         ignoreHTTPSErrors: true,
     });
     // let results = [];
