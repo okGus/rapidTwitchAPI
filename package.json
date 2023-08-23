@@ -10,6 +10,9 @@
   "keywords": [],
   "author": "Gustavo Rosales",
   "license": "ISC",
+  "engines": {
+    "node": "^18"
+  },
   "devDependencies": {
     "axios": "^1.4.0",
     "chrome-aws-lambda": "^9.1.0",
