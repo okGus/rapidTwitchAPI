@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const puppeteer = require('puppeteer');
 const chromium = require('chrome-aws-lambda');
-const playwright = require('playwright');
 
 // Puppeeteer because Twitch.tv is dynamic and not static
 // First unofficial API
@@ -19,7 +18,7 @@ app.get('/homepage', async (req, res) => {
     // const path = await chromium.executablePath;
     // console.log(path);
    
-    const browser = await playwright.chromium.launch({ 
+    const browser = await chromium.puppeteer.launch({ 
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
         headless: false,
