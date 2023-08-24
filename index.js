@@ -15,14 +15,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/homepage', async (req, res) => {
-    const path = await chromium.executablePath || '/usr/bin/google-chrome';
-    console.log(path);
    
     const browser = await chromium.puppeteer.launch({ 
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
         headless: 'new',
-        executablePath: await chromium.executablePath || '/usr/bin/google-chrome',
+        executablePath: await puppeteer.executablePath(),
         ignoreHTTPSErrors: true,
         ignoreDefaultArgs: ['--disable-extentions'],
     });
