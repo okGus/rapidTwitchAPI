@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const puppeteer = require('puppeteer');
-// const chromium = require('chrome-aws-lambda');
-const { chromium } = require('playwright');
+const chromium = require('chrome-aws-lambda');
+const playwright = require('playwright');
+
 // Puppeeteer because Twitch.tv is dynamic and not static
 // First unofficial API
 
@@ -17,15 +18,15 @@ app.get('/', (req, res) => {
 app.get('/homepage', async (req, res) => {
     // const path = await chromium.executablePath;
     // console.log(path);
-    const browser = await chromium.launch();
-    // const browser = await playwright.chromium.launch({ 
-    //     args: chromium.args,
-    //     defaultViewport: chromium.defaultViewport,
-    //     executablePath: await chromium.executablePath,
-    //     headless: chromium.headless,
-    //     ignoreHTTPSErrors: true,
-    //     ignoreDefaultArgs: ['--disable-extentions'],
-    // });
+   
+    const browser = await playwright.chromium.launch({ 
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        headless: false,
+        executablePath: await chromium.executablePath,
+        ignoreHTTPSErrors: true,
+        ignoreDefaultArgs: ['--disable-extentions'],
+    });
     // let results = [];
     
     const page = await browser.newPage();
