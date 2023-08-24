@@ -15,14 +15,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/homepage', async (req, res) => {
-    // const path = await chromium.executablePath;
-    // console.log(path);
+    const path = await chromium.executablePath || '/usr/bin/google-chrome';
+    console.log(path);
    
     const browser = await chromium.puppeteer.launch({ 
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
-        headless: false,
-        executablePath: await chromium.executablePath,
+        headless: 'new',
+        executablePath: await chromium.executablePath || '/usr/bin/google-chrome',
         ignoreHTTPSErrors: true,
         ignoreDefaultArgs: ['--disable-extentions'],
     });
@@ -34,8 +34,7 @@ app.get('/homepage', async (req, res) => {
     await page.goto(base_url);
 
     // Load Show More
-    // await page.click('div.Layout-sc-1xcs6mc-0.eajNuk > button');
-    await page.locator('.Layout-sc-1xcs6mc-0.eajNuk > button').first().click();
+    await page.click('div.Layout-sc-1xcs6mc-0.eajNuk > button');
 
     // Live Channels we think you'll like
     const live_channels = await page.evaluate(() => {
