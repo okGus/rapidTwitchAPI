@@ -19,7 +19,7 @@ app.get('/homepage', async (req, res) => {
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
         headless: 'new',
-        executablePath: puppeteer.executablePath(),
+        executablePath: await chromium.executablePath || '/usr/bin/chromium-browser',
         ignoreHTTPSErrors: true,
         ignoreDefaultArgs: ['--disable-extentions'],
     });
