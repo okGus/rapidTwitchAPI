@@ -15,12 +15,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/homepage', async (req, res) => {
-   
+   console.log(puppeteer.executablePath());
     const browser = await chromium.puppeteer.launch({ 
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
         headless: 'new',
-        executablePath: await puppeteer.executablePath(),
+        executablePath: puppeteer.executablePath(),
         ignoreHTTPSErrors: true,
         ignoreDefaultArgs: ['--disable-extentions'],
     });
