@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const puppeteer = require('puppeteer');
-const chromium = require('chrome-aws-lambda');
+// const chromium = require('chrome-aws-lambda');
+const { chromium } = require('playwright');
 // Puppeeteer because Twitch.tv is dynamic and not static
 // First unofficial API
 
@@ -14,14 +15,17 @@ app.get('/', (req, res) => {
 });
 
 app.get('/homepage', async (req, res) => {
-    const browser = await chromium.puppeteer.launch({ 
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath,
-        headless: "new",
-        ignoreHTTPSErrors: true,
-        ignoreDefaultArgs: ['--disable-extentions'],
-    });
+    // const path = await chromium.executablePath;
+    // console.log(path);
+    const browser = await chromium.launch();
+    // const browser = await playwright.chromium.launch({ 
+    //     args: chromium.args,
+    //     defaultViewport: chromium.defaultViewport,
+    //     executablePath: await chromium.executablePath,
+    //     headless: chromium.headless,
+    //     ignoreHTTPSErrors: true,
+    //     ignoreDefaultArgs: ['--disable-extentions'],
+    // });
     // let results = [];
     
     const page = await browser.newPage();
@@ -30,7 +34,8 @@ app.get('/homepage', async (req, res) => {
     await page.goto(base_url);
 
     // Load Show More
-    await page.click('div.Layout-sc-1xcs6mc-0.eajNuk > button');
+    // await page.click('div.Layout-sc-1xcs6mc-0.eajNuk > button');
+    await page.locator('.Layout-sc-1xcs6mc-0.eajNuk > button').first().click();
 
     // Live Channels we think you'll like
     const live_channels = await page.evaluate(() => {
