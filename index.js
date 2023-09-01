@@ -16,10 +16,10 @@ app.get('/', (req, res) => {
 
 app.get('/homepage', async (req, res) => {
     const browser = await chromium.puppeteer.launch({ 
-        args: ['--no-sandbox'],
-        // defaultViewport: chromium.defaultViewport,
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
         headless: 'new',
-        // executablePath: await chromium.executablePath || '/usr/bin/chromium-browser',
+        executablePath: await chromium.executablePath || '/usr/bin/google-chrome',
         ignoreHTTPSErrors: true,
         ignoreDefaultArgs: ['--disable-extentions'],
     });
