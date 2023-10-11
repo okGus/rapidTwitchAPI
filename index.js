@@ -31,7 +31,18 @@ app.get('/homepage', async (req, res) => {
     await page.goto(base_url);
 
     // Load Show More
-    await page.click('div.Layout-sc-1xcs6mc-0.eajNuk > button');
+    show_more = await page.evaluate(() => {
+        Array.from(document.querySelectorAll('p.CoreText-sc-1txzju1-0')).forEach(
+            (el) => {
+            if (el.textContent.includes("Show more")) {
+                el.click();
+            }
+        });
+    })
+    // a = Array.from(show_more);
+    // console.log(show_more);
+    // await page.click(show_more);
+    // await page.click('div.Layout-sc-1xcs6mc-0.eajNuk > button');
 
     // Live Channels we think you'll like
     const live_channels = await page.evaluate(() => {
